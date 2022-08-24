@@ -4,6 +4,7 @@ import { Fragment } from "react";
 import { ThemeProvider } from "styled-components";
 import { Footer } from "~/components/Footer";
 import { Header } from "~/components/Header";
+import { Main } from "~/components/Main";
 import { GlobalStyle } from "~/styles/global";
 import { theme } from "~/styles/theme";
 
@@ -17,7 +18,9 @@ const App: React.FC<AppProps> = ({ Component, pageProps }) => (
       <GlobalStyle />
 
       <Header />
-      <Component {...pageProps} />
+      <Main>
+        <Component {...pageProps} />
+      </Main>
       <Footer />
     </ThemeProvider>
   </Fragment>

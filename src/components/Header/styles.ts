@@ -111,4 +111,10 @@ export const CartButton = styled.button`
       padding-inline: 0.9375rem 1.6875rem;
     }
   `}
+
+  transition: filter 200ms linear;
+
+  &:hover {
+    filter: brightness(0.9);
+  }
 `;
