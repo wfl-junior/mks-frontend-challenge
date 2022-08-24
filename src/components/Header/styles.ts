@@ -3,6 +3,7 @@ import styled, { css } from "styled-components";
 export const HeaderContainer = styled.header`
   position: sticky;
   top: 0;
+  z-index: 9;
 
   background-color: ${({ theme }) => theme.colors.brand};
   box-shadow: 0 4px 4px rgb(0 0 0 / 0.25);
