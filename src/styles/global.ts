@@ -7,7 +7,7 @@ export const GlobalStyle = createGlobalStyle`
     box-sizing: border-box;
   }
 
-  body, #root {
+  body, #__next {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
