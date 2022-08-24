@@ -1,3 +1,4 @@
+import Image from "next/image";
 import styled, { css } from "styled-components";
 
 export const ProductCardContainer = styled.div`
@@ -6,12 +7,13 @@ export const ProductCardContainer = styled.div`
   box-shadow: 0 2px 8px rgb(0 0 0 / 0.1352);
   overflow: hidden;
   padding-top: 1.125rem;
+
+  display: flex;
+  flex-direction: column;
 `;
 
-export const Image = styled.img`
-  width: 100%;
+export const ProductImage = styled(Image)`
   object-fit: contain;
-  height: 8.625rem;
 `;
 
 export const Content = styled.div`

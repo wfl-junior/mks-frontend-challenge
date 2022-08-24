@@ -4,10 +4,10 @@ import {
   Content,
   Description,
   Header,
-  Image,
   Price,
   PriceBadge,
   ProductCardContainer,
+  ProductImage,
   Title,
 } from "./styles";
 
@@ -15,9 +15,12 @@ interface ProductCardProps {}
 
 export const ProductCard: React.FC<ProductCardProps> = () => (
   <ProductCardContainer>
-    <Image
+    <ProductImage
       src="https://mks-sistemas.nyc3.digitaloceanspaces.com/products/applewatch-series7.webp"
-      alt=""
+      width="100%"
+      height="138px"
+      alt="Apple Watch Series 7"
+      priority
     />
 
     <Content>
