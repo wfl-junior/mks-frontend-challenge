@@ -1,3 +1,4 @@
+import { useCartDrawerContext } from "~/contexts/CartDrawerContext";
 import { CartIcon } from "../CartIcon";
 import {
   CartButton,
@@ -9,16 +10,20 @@ import {
 
 interface HeaderProps {}
 
-export const Header: React.FC<HeaderProps> = () => (
-  <HeaderContainer>
-    <Logo>
-      <LogoPrimaryText>MKS</LogoPrimaryText>
-      <LogoSecondaryText>Sistemas</LogoSecondaryText>
-    </Logo>
+export const Header: React.FC<HeaderProps> = () => {
+  const { open } = useCartDrawerContext();
 
-    <CartButton type="button">
-      <CartIcon />
-      <span>0</span>
-    </CartButton>
-  </HeaderContainer>
-);
+  return (
+    <HeaderContainer>
+      <Logo>
+        <LogoPrimaryText>MKS</LogoPrimaryText>
+        <LogoSecondaryText>Sistemas</LogoSecondaryText>
+      </Logo>
+
+      <CartButton type="button" onClick={open}>
+        <CartIcon />
+        <span>0</span>
+      </CartButton>
+    </HeaderContainer>
+  );
+};

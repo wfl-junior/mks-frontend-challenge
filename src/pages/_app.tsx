@@ -6,6 +6,7 @@ import { CartDrawer } from "~/components/CartDrawer";
 import { Footer } from "~/components/Footer";
 import { Header } from "~/components/Header";
 import { Main } from "~/components/Main";
+import { CartDrawerContextProvider } from "~/contexts/CartDrawerContext";
 import { GlobalStyle } from "~/styles/global";
 import { theme } from "~/styles/theme";
 
@@ -18,8 +19,10 @@ const App: React.FC<AppProps> = ({ Component, pageProps }) => (
     <ThemeProvider theme={theme}>
       <GlobalStyle />
 
-      <Header />
-      <CartDrawer />
+      <CartDrawerContextProvider>
+        <Header />
+        <CartDrawer />
+      </CartDrawerContextProvider>
 
       <Main>
         <Component {...pageProps} />

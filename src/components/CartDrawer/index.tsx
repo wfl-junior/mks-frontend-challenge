@@ -1,3 +1,4 @@
+import { useCartDrawerContext } from "~/contexts/CartDrawerContext";
 import { CartProductCard } from "../CartProductCard";
 import {
   CartDrawerContainer,
@@ -13,7 +14,7 @@ import {
 interface CartDrawerProps {}
 
 export const CartDrawer: React.FC<CartDrawerProps> = () => {
-  const isOpen = true;
+  const { isOpen, close } = useCartDrawerContext();
 
   return (
     <CartDrawerContainer isOpen={isOpen}>
@@ -24,7 +25,9 @@ export const CartDrawer: React.FC<CartDrawerProps> = () => {
             de compras
           </Title>
 
-          <CloseButton type="button">X</CloseButton>
+          <CloseButton type="button" onClick={close}>
+            X
+          </CloseButton>
         </Header>
 
         <Products>
