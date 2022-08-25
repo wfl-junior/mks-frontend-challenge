@@ -1,17 +1,21 @@
-import { act, render, renderHook, screen } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { Header } from "~/components/Header";
 import { useCartDrawerContext } from "~/contexts/CartDrawerContext";
-import { useDispatch } from "~/redux/hooks";
-import { cartActions } from "~/redux/slices/cart";
+import { useFullCartItems } from "~/hooks/useFullCartItems";
 import { TestWrapperComponent } from "../TestWrapperComponent";
 
 jest.mock("~/contexts/CartDrawerContext");
+jest.mock("~/hooks/useFullCartItems");
+
 const mockedUseCartDrawerContext = jest.mocked(useCartDrawerContext);
+const mockedUseFullCartItems = jest.mocked(useFullCartItems);
 
 mockedUseCartDrawerContext.mockReturnValue({
   open: jest.fn(),
 } as any);
+
+mockedUseFullCartItems.mockReturnValue(null);
 
 const openCartButtonTitle = "Abrir carrinho";
 
@@ -37,34 +41,27 @@ describe("Header component", () => {
     expect(mockedOpen).toHaveBeenCalled();
   });
 
-  it("should update cart button number when the number of items in cart changes", () => {
-    render(<Header />, { wrapper: TestWrapperComponent });
+  it("should show the correct number of items in cart", () => {
+    mockedUseFullCartItems.mockReturnValueOnce(
+      Array.from({ length: 5 }, (_, i) => i + 1).map(number => ({
+        quantity: number,
+        product: {
+          id: number,
+          name: "Fake Product",
+          brand: "Apple",
+          photo: "fake-photo",
+          price: 2000,
+          description: "Fake product description",
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+        },
+      })),
+    );
 
-    const {
-      result: { current: dispatch },
-    } = renderHook(useDispatch, { wrapper: TestWrapperComponent });
+    render(<Header />, { wrapper: TestWrapperComponent });
 
     const button = screen.getByTitle(openCartButtonTitle);
 
-    expect(button.textContent).toBe("0");
-
-    act(() => {
-      dispatch(
-        cartActions.addItem({
-          product: {
-            id: 1,
-            name: "Fake Product",
-            brand: "Apple",
-            photo: "fake-photo",
-            price: 2000,
-            description: "Fake product description",
-            createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString(),
-          },
-        }),
-      );
-    });
-
-    expect(button.textContent).toBe("1");
+    expect(button.textContent).toBe("5");
   });
 });

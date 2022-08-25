@@ -71,7 +71,7 @@ describe("ProductCard component", () => {
 
     expect(mockedDispatch).toHaveBeenCalledWith(
       cartActions.addItem({
-        product: fakeProduct,
+        productId: fakeProduct.id,
       }),
     );
   });

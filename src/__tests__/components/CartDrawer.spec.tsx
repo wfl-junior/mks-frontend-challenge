@@ -2,21 +2,21 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { CartDrawer } from "~/components/CartDrawer";
 import { useCartDrawerContext } from "~/contexts/CartDrawerContext";
-import { useCartItems } from "~/hooks/useCartItems";
+import { useFullCartItems } from "~/hooks/useFullCartItems";
 import { useDispatch } from "~/redux/hooks";
 import { cartActions } from "~/redux/slices/cart";
 import { TestWrapperComponent } from "../TestWrapperComponent";
 
 jest.mock("~/contexts/CartDrawerContext");
-jest.mock("~/hooks/useCartItems");
+jest.mock("~/hooks/useFullCartItems");
 jest.mock("~/redux/hooks");
 
 const mockedUseCartDrawerContext = jest.mocked(useCartDrawerContext);
-const mockedUseCartItems = jest.mocked(useCartItems);
+const mockedUseFullCartItems = jest.mocked(useFullCartItems);
 const mockedUseDispatch = jest.mocked(useDispatch);
 
 mockedUseCartDrawerContext.mockReturnValue({} as any);
-mockedUseCartItems.mockReturnValue([]);
+mockedUseFullCartItems.mockReturnValue(null);
 mockedUseDispatch.mockReturnValue(jest.fn());
 
 describe("CartDrawer component", () => {
@@ -64,16 +64,24 @@ describe("CartDrawer component", () => {
     expect(mockedClose).toHaveBeenCalled();
   });
 
-  it("should render empty cart text when cart is empty", async () => {
-    mockedUseCartItems.mockReturnValueOnce([]);
+  it("should render empty cart text when products are not initialized yet", () => {
+    mockedUseFullCartItems.mockReturnValueOnce(null);
 
     render(<CartDrawer />, { wrapper: TestWrapperComponent });
 
     expect(screen.getByText("Seu carrinho está vazio.")).toBeInTheDocument();
   });
 
-  it("should not render empty cart text when cart is not empty", async () => {
-    mockedUseCartItems.mockReturnValueOnce([
+  it("should render empty cart text when cart is empty", () => {
+    mockedUseFullCartItems.mockReturnValueOnce([]);
+
+    render(<CartDrawer />, { wrapper: TestWrapperComponent });
+
+    expect(screen.getByText("Seu carrinho está vazio.")).toBeInTheDocument();
+  });
+
+  it("should not render empty cart text when cart is not empty", () => {
+    mockedUseFullCartItems.mockReturnValueOnce([
       {
         product: {
           id: 1,
@@ -92,7 +100,7 @@ describe("CartDrawer component", () => {
   });
 
   it("should render all items in cart", async () => {
-    mockedUseCartItems.mockReturnValueOnce([
+    mockedUseFullCartItems.mockReturnValueOnce([
       {
         product: {
           id: 1,
@@ -123,8 +131,8 @@ describe("CartDrawer component", () => {
     expect(screen.getByText("Total:")).toBeInTheDocument();
   });
 
-  it("should render total price correctly", async () => {
-    mockedUseCartItems.mockReturnValueOnce([
+  it("should render total price correctly", () => {
+    mockedUseFullCartItems.mockReturnValueOnce([
       {
         product: {
           id: 1,

@@ -3,7 +3,7 @@ import { ProductDTO } from "~/@types/DTOs/ProductDTO";
 import { RootState } from "../store";
 
 export interface CartItem {
-  product: ProductDTO;
+  productId: ProductDTO["id"];
   quantity: number;
 }
 
@@ -15,7 +15,7 @@ const initialState: CartState = {
   items: [],
 };
 
-type AddItemAction = PayloadAction<{ product: ProductDTO }>;
+type AddItemAction = PayloadAction<{ productId: ProductDTO["id"] }>;
 type RemoveItemAction = PayloadAction<{ productId: ProductDTO["id"] }>;
 type UpdateItemQuantityAction = PayloadAction<{
   productId: ProductDTO["id"];
@@ -27,30 +27,28 @@ const cartSlice = createSlice({
   initialState,
   reducers: {
     addItem(state, action: AddItemAction) {
-      const { product } = action.payload;
+      const { productId } = action.payload;
 
       const isItemAlreadyInCart = state.items.some(
-        item => item.product.id === product.id,
+        item => item.productId === productId,
       );
 
       if (!isItemAlreadyInCart) {
         state.items.push({
-          product,
+          productId,
           quantity: 1,
         });
       }
     },
     removeItem(state, action: RemoveItemAction) {
       state.items = state.items.filter(
-        item => item.product.id !== action.payload.productId,
+        item => item.productId !== action.payload.productId,
       );
     },
     updateItemQuantity(state, action: UpdateItemQuantityAction) {
       const { productId, quantity } = action.payload;
 
-      const index = state.items.findIndex(
-        item => item.product.id === productId,
-      );
+      const index = state.items.findIndex(item => item.productId === productId);
 
       if (index >= 0) {
         state.items[index].quantity = quantity;

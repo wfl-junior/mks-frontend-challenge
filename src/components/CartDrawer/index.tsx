@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { useCartDrawerContext } from "~/contexts/CartDrawerContext";
-import { useCartItems } from "~/hooks/useCartItems";
+import { useFullCartItems } from "~/hooks/useFullCartItems";
 import { useDispatch } from "~/redux/hooks";
 import { cartActions } from "~/redux/slices/cart";
 import { formatPrice } from "~/utils/formatPrice";
@@ -21,7 +21,7 @@ interface CartDrawerProps {}
 
 export const CartDrawer: React.FC<CartDrawerProps> = () => {
   const { isOpen, close } = useCartDrawerContext();
-  const cartItems = useCartItems();
+  const cartItems = useFullCartItems();
   const dispatch = useDispatch();
 
   function handleCompletePurchase() {
@@ -31,10 +31,10 @@ export const CartDrawer: React.FC<CartDrawerProps> = () => {
 
   const totalValue = useMemo(() => {
     return formatPrice(
-      cartItems.reduce(
+      cartItems?.reduce(
         (total, item) => total + item.product.price * item.quantity,
         0,
-      ),
+      ) || 0,
     );
   }, [cartItems]);
 
@@ -53,7 +53,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = () => {
         </Header>
 
         <Products>
-          {cartItems.length ? (
+          {cartItems?.length ? (
             cartItems.map(item => (
               <CartProductCard key={item.product.id} {...item} />
             ))

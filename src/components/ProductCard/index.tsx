@@ -25,7 +25,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   function handleAddToCart() {
     dispatch(
       cartActions.addItem({
-        product,
+        productId: product.id,
       }),
     );
   }

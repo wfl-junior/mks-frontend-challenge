@@ -1,5 +1,5 @@
 import { useCartDrawerContext } from "~/contexts/CartDrawerContext";
-import { useCartItems } from "~/hooks/useCartItems";
+import { useFullCartItems } from "~/hooks/useFullCartItems";
 import { CartIcon } from "../CartIcon";
 import {
   CartButton,
@@ -13,7 +13,7 @@ interface HeaderProps {}
 
 export const Header: React.FC<HeaderProps> = () => {
   const { open } = useCartDrawerContext();
-  const cartItems = useCartItems();
+  const cartItems = useFullCartItems();
 
   return (
     <HeaderContainer>
@@ -24,7 +24,7 @@ export const Header: React.FC<HeaderProps> = () => {
 
       <CartButton type="button" onClick={open} title="Abrir carrinho">
         <CartIcon />
-        <span>{cartItems.length}</span>
+        <span>{cartItems?.length || 0}</span>
       </CartButton>
     </HeaderContainer>
   );

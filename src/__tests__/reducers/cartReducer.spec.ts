@@ -1,4 +1,3 @@
-import { ProductDTO } from "~/@types/DTOs/ProductDTO";
 import {
   cartActions,
   CartItem,
@@ -12,51 +11,28 @@ describe("cartReducer", () => {
       items: [],
     };
 
-    const newItem: ProductDTO = {
-      id: 1,
-      name: "Fake Product",
-      brand: "Apple",
-      photo: "fake-photo",
-      price: 2000,
-      description: "Fake product description",
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-    };
-
     const newState = cartReducer(
       previousState,
       cartActions.addItem({
-        product: newItem,
+        productId: 1,
       }),
     );
 
-    expect(newState).toEqual({ items: [{ product: newItem, quantity: 1 }] });
+    expect(newState).toEqual({ items: [{ productId: 1, quantity: 1 }] });
   });
 
   it("should be able to remove an item from cart and should remove only the requested item", () => {
     const cartItem: CartItem = {
       quantity: 1,
-      product: {
-        id: 1,
-        name: "Fake Product",
-        brand: "Apple",
-        photo: "fake-photo",
-        price: 2000,
-        description: "Fake product description",
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-      },
+      productId: 1,
     };
 
     const previousState: CartState = {
       items: [
         cartItem,
         {
-          ...cartItem,
-          product: {
-            ...cartItem.product,
-            id: 2,
-          },
+          quantity: 2,
+          productId: 2,
         },
       ],
     };
@@ -74,30 +50,12 @@ describe("cartReducer", () => {
   it("should be able to update an item quantity and update only the requested item", () => {
     const firstItem: CartItem = {
       quantity: 1,
-      product: {
-        id: 1,
-        name: "Fake Product",
-        brand: "Apple",
-        photo: "fake-photo",
-        price: 2000,
-        description: "Fake product description",
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-      },
+      productId: 1,
     };
 
     const secondItem: CartItem = {
       quantity: 5,
-      product: {
-        id: 2,
-        name: "Fake Product",
-        brand: "Apple",
-        photo: "fake-photo",
-        price: 2000,
-        description: "Fake product description",
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-      },
+      productId: 2,
     };
 
     const previousState: CartState = {
@@ -127,16 +85,7 @@ describe("cartReducer", () => {
     const previousState: CartState = {
       items: Array.from({ length: 5 }, (_, i) => i + 1).map(number => ({
         quantity: number,
-        product: {
-          id: number,
-          name: "Fake Product",
-          brand: "Apple",
-          photo: "fake-photo",
-          price: 2000,
-          description: "Fake product description",
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString(),
-        },
+        productId: number,
       })),
     };
 
