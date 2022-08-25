@@ -2,13 +2,13 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ProductDTO } from "~/@types/DTOs/ProductDTO";
 import { RootState } from "../store";
 
-interface CartProduct {
+export interface CartItem {
   product: ProductDTO;
   quantity: number;
 }
 
-interface CartState {
-  items: CartProduct[];
+export interface CartState {
+  items: CartItem[];
 }
 
 const initialState: CartState = {
