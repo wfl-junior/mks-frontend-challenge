@@ -27,17 +27,23 @@ const cartSlice = createSlice({
   initialState,
   reducers: {
     addItem(state, action: AddItemAction) {
-      state.items.push({
-        product: action.payload.product,
-        quantity: 1,
-      });
-    },
-    removeItem(state, action: RemoveItemAction) {
-      const index = state.items.findIndex(
-        item => item.product.id === action.payload.productId,
+      const { product } = action.payload;
+
+      const isItemAlreadyInCart = state.items.some(
+        item => item.product.id === product.id,
       );
 
-      delete state.items[index];
+      if (!isItemAlreadyInCart) {
+        state.items.push({
+          product,
+          quantity: 1,
+        });
+      }
+    },
+    removeItem(state, action: RemoveItemAction) {
+      state.items = state.items.filter(
+        item => item.product.id !== action.payload.productId,
+      );
     },
     updateItemQuantity(state, action: UpdateItemQuantityAction) {
       const { productId, quantity } = action.payload;
@@ -46,7 +52,9 @@ const cartSlice = createSlice({
         item => item.product.id === productId,
       );
 
-      state.items[index].quantity = quantity;
+      if (index >= 0) {
+        state.items[index].quantity = quantity;
+      }
     },
   },
 });

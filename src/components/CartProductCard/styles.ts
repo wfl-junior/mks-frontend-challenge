@@ -1,4 +1,3 @@
-import Image from "next/image";
 import styled, { css } from "styled-components";
 
 export const CartProductCardContainer = styled.div`
@@ -55,19 +54,13 @@ export const DeleteFromCartButton = styled.button`
   }
 `;
 
-export const ProductImageContainer = styled.div`
+export const Image = styled.img`
+  object-fit: contain;
   height: 100px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 
   @media ${({ theme }) => theme.breakpoints.sm} {
     height: 60px;
   }
-`;
-
-export const ProductImage = styled(Image)`
-  object-fit: contain;
 `;
 
 export const Title = styled.strong`
@@ -81,7 +74,7 @@ export const Title = styled.strong`
 
   @media ${({ theme }) => theme.breakpoints.sm} {
     margin-top: 0;
-    margin-left: 1.3125rem;
+    margin-inline: 1.3125rem 0.5625rem;
     text-align: left;
   }
 `;
@@ -92,6 +85,11 @@ export const QuantityPriceContainer = styled.div`
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
+
+  @media ${({ theme }) => theme.breakpoints.sm} {
+    margin-top: 0;
+    margin-left: auto;
+  }
 `;
 
 export const QuantityContainer = styled.div`

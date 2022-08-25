@@ -1,4 +1,6 @@
 import { useCartDrawerContext } from "~/contexts/CartDrawerContext";
+import { useSelector } from "~/redux/hooks";
+import { selectCartItems } from "~/redux/slices/cart";
 import { CartProductCard } from "../CartProductCard";
 import {
   CartDrawerContainer,
@@ -7,6 +9,7 @@ import {
   Content,
   Footer,
   Header,
+  NoProductsText,
   Products,
   Title,
 } from "./styles";
@@ -15,6 +18,7 @@ interface CartDrawerProps {}
 
 export const CartDrawer: React.FC<CartDrawerProps> = () => {
   const { isOpen, close } = useCartDrawerContext();
+  const cartItems = useSelector(selectCartItems);
 
   return (
     <CartDrawerContainer isOpen={isOpen}>
@@ -31,14 +35,13 @@ export const CartDrawer: React.FC<CartDrawerProps> = () => {
         </Header>
 
         <Products>
-          <CartProductCard />
-          <CartProductCard />
-          <CartProductCard />
-          <CartProductCard />
-          <CartProductCard />
-          <CartProductCard />
-          <CartProductCard />
-          <CartProductCard />
+          {cartItems.length ? (
+            cartItems.map(item => (
+              <CartProductCard key={item.product.id} {...item} />
+            ))
+          ) : (
+            <NoProductsText>Seu carrinho está vazio.</NoProductsText>
+          )}
         </Products>
       </Content>
 

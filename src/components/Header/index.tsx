@@ -1,4 +1,6 @@
 import { useCartDrawerContext } from "~/contexts/CartDrawerContext";
+import { useSelector } from "~/redux/hooks";
+import { selectCartItems } from "~/redux/slices/cart";
 import { CartIcon } from "../CartIcon";
 import {
   CartButton,
@@ -12,6 +14,7 @@ interface HeaderProps {}
 
 export const Header: React.FC<HeaderProps> = () => {
   const { open } = useCartDrawerContext();
+  const cartItems = useSelector(selectCartItems);
 
   return (
     <HeaderContainer>
@@ -22,7 +25,7 @@ export const Header: React.FC<HeaderProps> = () => {
 
       <CartButton type="button" onClick={open}>
         <CartIcon />
-        <span>0</span>
+        <span>{cartItems.length}</span>
       </CartButton>
     </HeaderContainer>
   );

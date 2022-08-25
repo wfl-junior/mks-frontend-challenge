@@ -1,11 +1,14 @@
-import { useId, useState } from "react";
+import { useState } from "react";
+import { ProductDTO } from "~/@types/DTOs/ProductDTO";
+import { useDispatch } from "~/redux/hooks";
+import { cartActions } from "~/redux/slices/cart";
+import { formatPrice } from "~/utils/formatPrice";
 import {
   CartProductCardContainer,
   DeleteFromCartButton,
+  Image,
   Price,
   PriceBadge,
-  ProductImage,
-  ProductImageContainer,
   QuantityButton,
   QuantityContainer,
   QuantityInput,
@@ -14,54 +17,92 @@ import {
   Title,
 } from "./styles";
 
-interface CartProductCardProps {}
+interface CartProductCardProps {
+  product: ProductDTO;
+  quantity: number;
+}
 
-export const CartProductCard: React.FC<CartProductCardProps> = () => {
-  const id = useId();
-  const [quantity, setQuantity] = useState(1);
+export const CartProductCard: React.FC<CartProductCardProps> = ({
+  product,
+  quantity,
+}) => {
+  const [quantityInput, setQuantityInput] = useState(1);
+  const dispatch = useDispatch();
 
-  const inputId = `${id}-quantity`;
-
-  function decrementQuantity() {
-    let newQuantity = 1;
-
-    if (!isNaN(quantity)) {
-      newQuantity = quantity - 1;
-    }
-
-    setQuantity(newQuantity || 1);
+  function handleRemoveItemFromCart() {
+    dispatch(
+      cartActions.removeItem({
+        productId: product.id,
+      }),
+    );
   }
 
-  function incrementQuantity() {
+  function handleDecrementQuantity() {
     let newQuantity = 1;
 
-    if (!isNaN(quantity)) {
-      newQuantity = quantity + 1;
+    if (!isNaN(quantityInput)) {
+      newQuantity = Math.max(quantityInput - 1, 1);
     }
 
-    setQuantity(newQuantity);
+    setQuantityInput(newQuantity);
+
+    dispatch(
+      cartActions.updateItemQuantity({
+        productId: product.id,
+        quantity: newQuantity,
+      }),
+    );
   }
+
+  function handleIncrementQuantity() {
+    let newQuantity = 1;
+
+    if (!isNaN(quantityInput)) {
+      newQuantity = quantityInput + 1;
+    }
+
+    setQuantityInput(newQuantity);
+
+    dispatch(
+      cartActions.updateItemQuantity({
+        productId: product.id,
+        quantity: newQuantity,
+      }),
+    );
+  }
+
+  function handleInputQuantityChange(
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) {
+    const value = parseInt(event.target.value);
+    setQuantityInput(value);
+
+    if (!isNaN(value)) {
+      dispatch(
+        cartActions.updateItemQuantity({
+          productId: product.id,
+          quantity: value,
+        }),
+      );
+    }
+  }
+
+  const inputId = `product-${product.id}:quantity`;
 
   return (
     <CartProductCardContainer>
-      <DeleteFromCartButton type="button">X</DeleteFromCartButton>
+      <DeleteFromCartButton type="button" onClick={handleRemoveItemFromCart}>
+        X
+      </DeleteFromCartButton>
 
-      <ProductImageContainer>
-        <ProductImage
-          src="https://mks-sistemas.nyc3.digitaloceanspaces.com/products/applewatch-series7.webp"
-          width="100%"
-          height="100%"
-          alt="Apple Watch Series 7"
-        />
-      </ProductImageContainer>
-
-      <Title>Apple Watch Series 7</Title>
+      <Image src={product.photo} alt={product.name} />
+      <Title>{product.name}</Title>
 
       <QuantityPriceContainer>
         <QuantityContainer>
           <QuantityLabel htmlFor={inputId}>Qtd:</QuantityLabel>
 
-          <QuantityButton type="button" onClick={decrementQuantity}>
+          <QuantityButton type="button" onClick={handleDecrementQuantity}>
             -
           </QuantityButton>
 
@@ -69,18 +110,18 @@ export const CartProductCard: React.FC<CartProductCardProps> = () => {
             id={inputId}
             type="text"
             inputMode="numeric"
-            value={isNaN(quantity) ? "" : quantity}
-            onChange={e => setQuantity(parseInt(e.target.value))}
-            length={quantity.toString().length}
+            value={isNaN(quantityInput) ? "" : quantityInput}
+            onChange={handleInputQuantityChange}
+            length={quantityInput.toString().length}
           />
 
-          <QuantityButton type="button" onClick={incrementQuantity}>
+          <QuantityButton type="button" onClick={handleIncrementQuantity}>
             +
           </QuantityButton>
         </QuantityContainer>
 
         <PriceBadge>
-          <Price>R$3200</Price>
+          <Price>{formatPrice(product.price * quantity)}</Price>
         </PriceBadge>
       </QuantityPriceContainer>
     </CartProductCardContainer>
