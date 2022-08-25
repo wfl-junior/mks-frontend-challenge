@@ -1,8 +1,8 @@
 import { ProductDTO } from "~/@types/DTOs/ProductDTO";
 import { fetchWrapper } from "./fetchWrapper";
 
-interface ProductsResponse {
-  products: Array<ProductDTO & { price: string }>;
+export interface ProductsResponse {
+  products: Array<Omit<ProductDTO, "price"> & { price: string }>;
   count: number;
 }
 
