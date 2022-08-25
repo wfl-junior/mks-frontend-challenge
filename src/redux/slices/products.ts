@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ProductDTO } from "~/@types/DTOs/ProductDTO";
 import { RootState } from "../store";
 
-interface ProductsState {
+export interface ProductsState {
   products: ProductDTO[];
 }
 
