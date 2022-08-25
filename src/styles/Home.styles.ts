@@ -17,3 +17,10 @@ export const Products = styled.div`
     }
   `}
 `;
+
+export const ErrorMessage = styled.p`
+  font-size: 1.125rem;
+  font-weight: 400;
+  color: ${({ theme }) => theme.colors.text.primary};
+  text-align: center;
+`;

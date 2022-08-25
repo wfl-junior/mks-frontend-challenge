@@ -1,46 +1,55 @@
+import { ProductDTO } from "~/@types/DTOs/ProductDTO";
+import { useDispatch } from "~/redux/hooks";
+import { cartActions } from "~/redux/slices/cart";
+import { formatPrice } from "~/utils/formatPrice";
 import { ShoppingBagIcon } from "../ShoppingBagIcon";
 import {
   BuyButton,
   Content,
   Description,
   Header,
+  Image,
   Price,
   PriceBadge,
   ProductCardContainer,
-  ProductImage,
   Title,
 } from "./styles";
 
-interface ProductCardProps {}
+interface ProductCardProps {
+  product: ProductDTO;
+}
 
-export const ProductCard: React.FC<ProductCardProps> = () => (
-  <ProductCardContainer>
-    <ProductImage
-      src="https://mks-sistemas.nyc3.digitaloceanspaces.com/products/applewatch-series7.webp"
-      width="100%"
-      height="138px"
-      alt="Apple Watch Series 7"
-      priority
-    />
+export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
+  const dispatch = useDispatch();
 
-    <Content>
-      <Header>
-        <Title>Apple Watch Series 7</Title>
+  function handleAddToCart() {
+    dispatch(
+      cartActions.addItem({
+        product,
+      }),
+    );
+  }
 
-        <PriceBadge>
-          <Price>R$3200</Price>
-        </PriceBadge>
-      </Header>
+  return (
+    <ProductCardContainer>
+      <Image src={product.photo} alt={product.name} />
 
-      <Description>
-        O Apple Watch faz coisas que outros aparelhos não conseguem porque ele
-        fica no seu pulso.
-      </Description>
-    </Content>
+      <Content>
+        <Header>
+          <Title>{product.name}</Title>
 
-    <BuyButton type="button">
-      <ShoppingBagIcon />
-      <span>Comprar</span>
-    </BuyButton>
-  </ProductCardContainer>
-);
+          <PriceBadge>
+            <Price>{formatPrice(product.price)}</Price>
+          </PriceBadge>
+        </Header>
+
+        <Description>{product.description}</Description>
+      </Content>
+
+      <BuyButton type="button" onClick={handleAddToCart}>
+        <ShoppingBagIcon />
+        <span>Comprar</span>
+      </BuyButton>
+    </ProductCardContainer>
+  );
+};

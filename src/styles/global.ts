@@ -35,4 +35,14 @@ export const GlobalStyle = createGlobalStyle`
   input {
     border: 0;
   }
+
+  @keyframes pulse {
+    0%, 100% {
+      opacity: 1;
+    }
+    
+    50% {
+      opacity: .5;
+    }
+  }
 `;

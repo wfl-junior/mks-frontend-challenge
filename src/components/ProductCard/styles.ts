@@ -1,4 +1,3 @@
-import Image from "next/image";
 import styled, { css } from "styled-components";
 
 export const ProductCardContainer = styled.div`
@@ -12,8 +11,10 @@ export const ProductCardContainer = styled.div`
   flex-direction: column;
 `;
 
-export const ProductImage = styled(Image)`
+export const Image = styled.img`
+  width: 100%;
   object-fit: contain;
+  height: 138px;
 `;
 
 export const Content = styled.div`
@@ -22,7 +23,7 @@ export const Content = styled.div`
 
 export const Header = styled.div`
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   gap: 0.25rem;
 `;
@@ -60,6 +61,7 @@ export const Description = styled.p`
 `;
 
 export const BuyButton = styled.button`
+  margin-top: auto;
   width: 100%;
   padding: 0.5rem;
 
