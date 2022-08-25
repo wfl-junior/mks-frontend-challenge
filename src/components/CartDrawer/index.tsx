@@ -1,7 +1,8 @@
 import { useMemo } from "react";
 import { useCartDrawerContext } from "~/contexts/CartDrawerContext";
-import { useDispatch, useSelector } from "~/redux/hooks";
-import { cartActions, selectCartItems } from "~/redux/slices/cart";
+import { useCartItems } from "~/hooks/useCartItems";
+import { useDispatch } from "~/redux/hooks";
+import { cartActions } from "~/redux/slices/cart";
 import { formatPrice } from "~/utils/formatPrice";
 import { CartProductCard } from "../CartProductCard";
 import {
@@ -20,7 +21,7 @@ interface CartDrawerProps {}
 
 export const CartDrawer: React.FC<CartDrawerProps> = () => {
   const { isOpen, close } = useCartDrawerContext();
-  const cartItems = useSelector(selectCartItems);
+  const cartItems = useCartItems();
   const dispatch = useDispatch();
 
   function handleCompletePurchase() {
@@ -46,7 +47,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = () => {
             de compras
           </Title>
 
-          <CloseButton type="button" onClick={close}>
+          <CloseButton type="button" onClick={close} title="Fechar">
             X
           </CloseButton>
         </Header>
