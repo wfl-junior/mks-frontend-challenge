@@ -9,7 +9,9 @@ export const ProductCardSkeletonContainer = styled.div`
   display: flex;
   flex-direction: column;
 
-  animation: pulse 1s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  @media (prefers-reduced-motion: no-preference) {
+    animation: pulse 1s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
 `;
 
 export const SkeletonImage = styled.div`
