@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ProductDTO } from "~/@types/DTOs/ProductDTO";
-import { RootState } from "../store";
+import type { RootState } from "../store";
 
 export interface CartItem {
   productId: ProductDTO["id"];
