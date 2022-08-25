@@ -14,7 +14,11 @@ import {
 interface ProductCardSkeletonProps {}
 
 export const ProductCardSkeleton: React.FC<ProductCardSkeletonProps> = ({}) => (
-  <ProductCardSkeletonContainer>
+  <ProductCardSkeletonContainer
+    role="skeleton"
+    aria-busy="true"
+    aria-live="polite"
+  >
     <SkeletonImage />
 
     <Content>
