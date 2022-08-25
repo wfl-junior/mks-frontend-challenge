@@ -1,6 +1,6 @@
 import { useCartDrawerContext } from "~/contexts/CartDrawerContext";
-import { useSelector } from "~/redux/hooks";
-import { selectCartItems } from "~/redux/slices/cart";
+import { useDispatch, useSelector } from "~/redux/hooks";
+import { cartActions, selectCartItems } from "~/redux/slices/cart";
 import { CartProductCard } from "../CartProductCard";
 import {
   CartDrawerContainer,
@@ -19,6 +19,12 @@ interface CartDrawerProps {}
 export const CartDrawer: React.FC<CartDrawerProps> = () => {
   const { isOpen, close } = useCartDrawerContext();
   const cartItems = useSelector(selectCartItems);
+  const dispatch = useDispatch();
+
+  function handleCompletePurchase() {
+    close();
+    dispatch(cartActions.clearItems());
+  }
 
   return (
     <CartDrawerContainer isOpen={isOpen}>
@@ -50,7 +56,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = () => {
         <span>R$798</span>
       </Footer>
 
-      <CompletePurchaseButton type="button">
+      <CompletePurchaseButton type="button" onClick={handleCompletePurchase}>
         Finalizar Compra
       </CompletePurchaseButton>
     </CartDrawerContainer>
