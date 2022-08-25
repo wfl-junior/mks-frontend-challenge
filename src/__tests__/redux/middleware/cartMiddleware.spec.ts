@@ -2,26 +2,7 @@ import { cartMiddleware } from "~/redux/middleware/cartMiddleware";
 import { cartActions, CartItem } from "~/redux/slices/cart";
 import { productsActions } from "~/redux/slices/products";
 import { cartItemsLocalStorageKey } from "~/utils/constants";
-
-class LocalStorageMock {
-  store: Record<string, string> = {};
-
-  setItem(key: string, value: any) {
-    this.store[key] = String(value);
-  }
-
-  getItem(key: string) {
-    return this.store[key] || null;
-  }
-
-  removeItem(key: string) {
-    delete this.store[key];
-  }
-
-  clear() {
-    this.store = {};
-  }
-}
+import { LocalStorageMock } from "~/__tests__/LocalStorageMock";
 
 const mockedLocalStorage = new LocalStorageMock();
 

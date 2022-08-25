@@ -1,23 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { cartItemsLocalStorageKey } from "~/utils/constants";
+import { getInitialCartItems } from "~/utils/getInitialCartItems";
 import { cartMiddleware } from "./middleware/cartMiddleware";
-import { CartItem, cartReducer, cartSliceName } from "./slices/cart";
+import { cartReducer, cartSliceName } from "./slices/cart";
 import { productsReducer, productsSliceName } from "./slices/products";
-
-function getInitialCartItems(): CartItem[] {
-  // se estiver em ssr
-  if (typeof window === "undefined") {
-    return [];
-  }
-
-  const existingCartItems = localStorage.getItem(cartItemsLocalStorageKey);
-
-  if (existingCartItems) {
-    return JSON.parse(existingCartItems);
-  }
-
-  return [];
-}
 
 export const store = configureStore({
   reducer: {
