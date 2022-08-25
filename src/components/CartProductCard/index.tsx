@@ -26,7 +26,7 @@ export const CartProductCard: React.FC<CartProductCardProps> = ({
   product,
   quantity,
 }) => {
-  const [quantityInput, setQuantityInput] = useState(1);
+  const [quantityInput, setQuantityInput] = useState(quantity);
   const dispatch = useDispatch();
 
   function handleRemoveItemFromCart() {
@@ -91,7 +91,11 @@ export const CartProductCard: React.FC<CartProductCardProps> = ({
 
   return (
     <CartProductCardContainer>
-      <DeleteFromCartButton type="button" onClick={handleRemoveItemFromCart}>
+      <DeleteFromCartButton
+        type="button"
+        onClick={handleRemoveItemFromCart}
+        title="Remover do carrinho"
+      >
         X
       </DeleteFromCartButton>
 
@@ -102,7 +106,11 @@ export const CartProductCard: React.FC<CartProductCardProps> = ({
         <QuantityContainer>
           <QuantityLabel htmlFor={inputId}>Qtd:</QuantityLabel>
 
-          <QuantityButton type="button" onClick={handleDecrementQuantity}>
+          <QuantityButton
+            type="button"
+            onClick={handleDecrementQuantity}
+            title="Diminuir quantidade"
+          >
             -
           </QuantityButton>
 
@@ -115,7 +123,11 @@ export const CartProductCard: React.FC<CartProductCardProps> = ({
             length={quantityInput.toString().length}
           />
 
-          <QuantityButton type="button" onClick={handleIncrementQuantity}>
+          <QuantityButton
+            type="button"
+            onClick={handleIncrementQuantity}
+            title="Aumentar quantidade"
+          >
             +
           </QuantityButton>
         </QuantityContainer>
