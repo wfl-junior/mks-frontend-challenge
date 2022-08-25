@@ -3,8 +3,9 @@ import { useEffect, useState } from "react";
 import { ProductDTO } from "~/@types/DTOs/ProductDTO";
 import { ProductCard } from "~/components/ProductCard";
 import { ProductCardSkeleton } from "~/components/ProductCardSkeleton";
-import { useDispatch, useSelector } from "~/redux/hooks";
-import { productsActions, selectProducts } from "~/redux/slices/products";
+import { useProducts } from "~/hooks/useProducts";
+import { useDispatch } from "~/redux/hooks";
+import { productsActions } from "~/redux/slices/products";
 import { ErrorMessage, Products } from "~/styles/Home.styles";
 
 const perPage = 8;
@@ -16,7 +17,7 @@ const skeletonProductsArray = Array.from({ length: perPage }, (_, i) => i);
 const Home: NextPage<HomeProps> = () => {
   const [hasError, setHasError] = useState(false);
   const dispatch = useDispatch();
-  const products = useSelector(selectProducts);
+  const products = useProducts();
 
   useEffect(() => {
     const controller = new AbortController();
