@@ -1,6 +1,8 @@
+import { useMemo } from "react";
 import { useCartDrawerContext } from "~/contexts/CartDrawerContext";
 import { useDispatch, useSelector } from "~/redux/hooks";
 import { cartActions, selectCartItems } from "~/redux/slices/cart";
+import { formatPrice } from "~/utils/formatPrice";
 import { CartProductCard } from "../CartProductCard";
 import {
   CartDrawerContainer,
@@ -25,6 +27,15 @@ export const CartDrawer: React.FC<CartDrawerProps> = () => {
     close();
     dispatch(cartActions.clearItems());
   }
+
+  const totalValue = useMemo(() => {
+    return formatPrice(
+      cartItems.reduce(
+        (total, item) => total + item.product.price * item.quantity,
+        0,
+      ),
+    );
+  }, [cartItems]);
 
   return (
     <CartDrawerContainer isOpen={isOpen}>
@@ -53,7 +64,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = () => {
 
       <Footer>
         <span>Total:</span>
-        <span>R$798</span>
+        <span>{totalValue}</span>
       </Footer>
 
       <CompletePurchaseButton type="button" onClick={handleCompletePurchase}>
