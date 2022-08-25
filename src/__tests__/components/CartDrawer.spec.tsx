@@ -19,7 +19,7 @@ mockedUseCartDrawerContext.mockReturnValue({} as any);
 mockedUseCartItems.mockReturnValue([]);
 mockedUseDispatch.mockReturnValue(jest.fn());
 
-describe("Header component", () => {
+describe("CartDrawer component", () => {
   it("should render title", () => {
     render(<CartDrawer />, { wrapper: TestWrapperComponent });
 
