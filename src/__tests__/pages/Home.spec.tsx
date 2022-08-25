@@ -17,7 +17,7 @@ const mockedUseProducts = jest.mocked(useProducts);
 
 mockedUseDispatch.mockReturnValue(jest.fn());
 mockedFetchProducts.mockResolvedValue({ products: [], count: 0 });
-mockedUseProducts.mockReturnValue([]);
+mockedUseProducts.mockReturnValue(null);
 
 const fakeProducts: ProductDTO[] = Array.from(
   { length: 8 },
@@ -67,7 +67,7 @@ describe("Home page", () => {
   });
 
   it("should render skeleton product cards while loading", async () => {
-    mockedUseProducts.mockReturnValueOnce([]);
+    mockedUseProducts.mockReturnValueOnce(null);
 
     render(<Home />, {
       wrapper: TestWrapperComponent,

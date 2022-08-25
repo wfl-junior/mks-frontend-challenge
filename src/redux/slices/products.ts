@@ -3,11 +3,11 @@ import { ProductDTO } from "~/@types/DTOs/ProductDTO";
 import { RootState } from "../store";
 
 export interface ProductsState {
-  products: ProductDTO[];
+  products: ProductDTO[] | null;
 }
 
 const initialState: ProductsState = {
-  products: [],
+  products: null,
 };
 
 const productsSlice = createSlice({

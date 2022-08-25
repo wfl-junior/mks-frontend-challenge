@@ -54,7 +54,7 @@ const Home: NextPage<HomeProps> = () => {
 
   return (
     <Products>
-      {!products.length
+      {!products
         ? skeletonProductsArray.map(number => (
             <ProductCardSkeleton key={number} />
           ))

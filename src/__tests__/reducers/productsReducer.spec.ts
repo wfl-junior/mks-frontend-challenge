@@ -8,7 +8,7 @@ import {
 describe("productsReducer", () => {
   it("should set products state correctly", () => {
     const previousState: ProductsState = {
-      products: [],
+      products: null,
     };
 
     const newProducts: ProductDTO[] = [
