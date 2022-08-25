@@ -13,6 +13,8 @@ mockedUseCartDrawerContext.mockReturnValue({
   open: jest.fn(),
 } as any);
 
+const openCartButtonTitle = "Abrir carrinho";
+
 describe("Header component", () => {
   it("should render logo", () => {
     render(<Header />, { wrapper: TestWrapperComponent });
@@ -21,13 +23,7 @@ describe("Header component", () => {
     expect(screen.getByText("Sistemas")).toBeInTheDocument();
   });
 
-  it("should render cart button", () => {
-    render(<Header />, { wrapper: TestWrapperComponent });
-
-    expect(screen.getByRole("button", { name: /0/ })).toBeInTheDocument();
-  });
-
-  it("should call open function from useCartDrawerContext on cart button click", async () => {
+  it("should open cart drawer on cart button click", async () => {
     const mockedOpen = jest.fn();
 
     mockedUseCartDrawerContext.mockReturnValueOnce({
@@ -35,20 +31,22 @@ describe("Header component", () => {
     } as any);
 
     render(<Header />, { wrapper: TestWrapperComponent });
-    const button = screen.getByRole("button", { name: /0/ });
 
-    await userEvent.click(button);
+    await userEvent.click(screen.getByTitle(openCartButtonTitle));
 
     expect(mockedOpen).toHaveBeenCalled();
   });
 
   it("should update cart button number when the number of items in cart changes", () => {
     render(<Header />, { wrapper: TestWrapperComponent });
-    const button = screen.getByRole("button", { name: /0/ });
 
     const {
       result: { current: dispatch },
     } = renderHook(useDispatch, { wrapper: TestWrapperComponent });
+
+    const button = screen.getByTitle(openCartButtonTitle);
+
+    expect(button.textContent).toBe("0");
 
     act(() => {
       dispatch(
