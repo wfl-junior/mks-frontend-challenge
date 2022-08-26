@@ -1,17 +1,18 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { CartProductCard } from "~/components/CartProductCard";
+import { FullCartItem } from "~/hooks/useFullCartItems";
 import { useDispatch } from "~/redux/hooks";
-import { cartActions, CartItem } from "~/redux/slices/cart";
+import { cartActions } from "~/redux/slices/cart";
 import { formatPrice } from "~/utils/formatPrice";
 import { TestWrapperComponent } from "../TestWrapperComponent";
 
 jest.mock("~/redux/hooks");
-const mockedUseDispatch = jest.mocked(useDispatch);
+const mockedUseDispatch = jest.mocked(useDispatch as any);
 
 mockedUseDispatch.mockReturnValue(jest.fn());
 
-const fakeCartItem: CartItem = {
+const fakeCartItem: FullCartItem = {
   quantity: 2,
   product: {
     id: 1,
