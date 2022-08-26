@@ -13,7 +13,7 @@ jest.mock("~/redux/hooks");
 
 const mockedUseCartDrawerContext = jest.mocked(useCartDrawerContext);
 const mockedUseFullCartItems = jest.mocked(useFullCartItems);
-const mockedUseDispatch = jest.mocked(useDispatch);
+const mockedUseDispatch = jest.mocked(useDispatch as any);
 
 mockedUseCartDrawerContext.mockReturnValue({} as any);
 mockedUseFullCartItems.mockReturnValue(null);

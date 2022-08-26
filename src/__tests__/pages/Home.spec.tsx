@@ -11,7 +11,7 @@ jest.mock("~/utils/fetchProducts");
 jest.mock("~/redux/hooks");
 jest.mock("~/hooks/useProducts");
 
-const mockedUseDispatch = jest.mocked(useDispatch);
+const mockedUseDispatch = jest.mocked(useDispatch as any);
 const mockedFetchProducts = jest.mocked(fetchProducts);
 const mockedUseProducts = jest.mocked(useProducts);
 

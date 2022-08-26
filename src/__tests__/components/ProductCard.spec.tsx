@@ -8,7 +8,7 @@ import { formatPrice } from "~/utils/formatPrice";
 import { TestWrapperComponent } from "../TestWrapperComponent";
 
 jest.mock("~/redux/hooks");
-const mockedUseDispatch = jest.mocked(useDispatch);
+const mockedUseDispatch = jest.mocked(useDispatch as any);
 
 mockedUseDispatch.mockReturnValue(jest.fn());
 
